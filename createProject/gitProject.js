@@ -18,20 +18,15 @@ export default async function gitProject(name) {
         }
     ]
 
-
+    // git仓库映射
     const gitMap = {
         gitee: "https://gitee.com/w992133722/react-ts.git"
     }
 
-
     let { gitType } = await inquirer.prompt((question));
 
-    console.log(gitType, gitMap[gitType])
-
     if (gitMap[gitType]) {
-
         let loading = ora('正在克隆仓库')
-
         loading.start()
 
         let [err, code] = await promiseCommand(`git clone ${gitMap[gitType]}`)
@@ -40,6 +35,8 @@ export default async function gitProject(name) {
         } else {
             loading.succeed('仓库克隆成功')
         }
+    } else {
+        ora().fail("镜像资源正在开发中")
     }
 
 };
