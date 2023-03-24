@@ -2,6 +2,7 @@ import chalk from "chalk";
 import inquirer from "inquirer";
 import tempProject from "./templateProject.js";
 import custormProject from "./custormProject.js";
+import gitProject from "./gitProject.js";
 import { existsSync } from 'fs'
 import process from "process";
 import shell from 'shelljs'
@@ -26,7 +27,7 @@ export default async function createProject() {
             type: 'list',
             message: '选择项目类型',
             name: 'projectType',
-            choices: ['template', 'custom'] // 通过fs模块读取tempate目录下的目录列表
+            choices: ['template', 'custom', 'git'] // 通过fs模块读取tempate目录下的目录列表
         }
     ]
 
@@ -42,6 +43,7 @@ export default async function createProject() {
 
         projectType === 'template' && tempProject(name)
         projectType === 'custom' && custormProject(name)
+        projectType === 'git' && gitProject(name)
 
     } catch (error) {
         log(chalk.red('createProject错误:', error))
