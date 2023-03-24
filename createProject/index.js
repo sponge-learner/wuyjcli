@@ -53,6 +53,7 @@ export default async function createProject() {
 
 
 async function hasFile(name) {
+    
     if (existsSync(name)) {
 
         ora().warn(chalk.red(`目录下已存在${name}文件夹`))
