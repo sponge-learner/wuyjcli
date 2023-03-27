@@ -9,7 +9,11 @@
   "bin": {
     "mycli": "index.js"
   },
-  "keywords": [],
+  "keywords": [
+    "cli",
+    "react",
+    "vue"
+  ],
   "author": "",
   "license": "ISC",
   "dependencies": {
