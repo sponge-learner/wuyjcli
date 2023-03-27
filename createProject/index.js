@@ -3,12 +3,14 @@ import inquirer from "inquirer";
 import tempProject from "./templateProject.js";
 import custormProject from "./custormProject.js";
 import gitProject from "./gitProject.js";
+import updateTemplate from "./updateTemplate.js";
 import { existsSync } from 'fs'
 import process from "process";
 import shell from 'shelljs'
 import ora from "ora";
 import { exec } from "child_process";
 import path from "path";
+
 
 /**
  * 开始构建
@@ -27,9 +29,17 @@ export default async function createProject() {
             type: 'list',
             message: '选择项目类型',
             name: 'projectType',
-            choices: ['template', 'custom', 'git'] // 通过fs模块读取tempate目录下的目录列表
+            choices: ['template', 'custom', 'git', 'updateTemplate'] // 通过fs模块读取tempate目录下的目录列表
         }
     ]
+
+
+    let funcMaps = {
+        template: tempProject,
+        custom: custormProject,
+        git: gitProject,
+        updateTemplate
+    }
 
     try {
 
@@ -41,9 +51,7 @@ export default async function createProject() {
 
         await hasFile(name)
 
-        projectType === 'template' && tempProject(name)
-        projectType === 'custom' && custormProject(name)
-        projectType === 'git' && gitProject(name)
+        funcMaps?.[projectType]?.()
 
     } catch (error) {
         log(chalk.red('createProject错误:', error))
@@ -53,7 +61,7 @@ export default async function createProject() {
 
 
 async function hasFile(name) {
-    
+
     if (existsSync(name)) {
 
         ora().warn(chalk.red(`目录下已存在${name}文件夹`))
